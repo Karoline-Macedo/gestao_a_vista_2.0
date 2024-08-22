@@ -1,0 +1,64 @@
+body {
+    background-color: whitesmoke;
+  }
+  
+  .login-form {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
+  .full-height {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .centered-card {
+    width: 100%;
+    max-width: 500px;
+    transform: translateY(-1in); /* Move o menu para cima*/
+  }
+
+img.perfil {
+    border: 2px solid #ddd; 
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    align-items: center;
+  }
+
+#divImg {
+    padding-bottom: 20px;
+}
+
+#divBtn{
+    width: 200px;
+    padding-left: 10px;
+}
+/*centraliza verticalmente */
+.full-height {
+    height: 100vh;
+  }
+  
+  .centered-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Alinha verticalmente no centro */
+    align-items: center; /* Alinha horizontalmente no centro */
+    text-align: center;
+  }
+  
+  .modal-content {
+    width: 100%; 
+    max-width: 500px;
+  }
+  
+  .img-fluid.rounded-circle {
+    max-width: 450px;
+    height: auto;
+  }
+  
+  .btn-primary.mt-3 {
+    margin-top: 1rem;
+    width: 100%;
+  }
+  

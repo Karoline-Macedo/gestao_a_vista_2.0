@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operacional</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><img src="assets/logoAgroPCP.png" alt="Logo" width="45" height="45" class="d-inline-block align-top">
+        Gestão a Vista
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Usuário</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Sair</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Tabela de Operacional</h2>
+        <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalNovoRegistro">Novo Registro</button>
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th>Funcionário</th>
+              <th>Fazenda</th>
+              <th>Controle de Estoque</th>
+              <th>Caderno de Ponto</th>
+              <th>Rastreamento</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Funcionário 1</td>
+              <td>Fazenda A</td>
+              <td><span class="badge badge-warning">Em andamento</span></td>
+              <td><span class="badge badge-success">Concluído</span></td>
+              <td><span class="badge badge-danger">Atrasado</span></td>
+              <td>
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditar">Editar</button>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <a href="index.html" class="btn btn-secondary">Voltar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalNovoRegistro" tabindex="-1" role="dialog" aria-labelledby="modalNovoRegistroLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNovoRegistroLabel">Novo Registro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="inputFuncionario">Funcionário</label>
+              <input type="text" class="form-control" id="inputFuncionario" required>
+            </div>
+            <div class="form-group">
+              <label for="inputFazenda">Fazenda</label>
+              <input type="text" class="form-control" id="inputFazenda" required>
+            </div>
+            <div class="form-group">
+              <label for="inputControleEstoque">Controle de Estoque</label>
+              <select class="form-control" id="inputControleEstoque">
+                <option value="em andamento">Em andamento</option>
+                <option value="concluido">Concluído</option>
+                <option value="atrasado">Atrasado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputCadernoPonto">Caderno de Ponto</label>
+              <select class="form-control" id="inputCadernoPonto">
+                <option value="em andamento">Em andamento</option>
+                <option value="concluido">Concluído</option>
+                <option value="atrasado">Atrasado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputRastreamento">Rastreamento</label>
+              <select class="form-control" id="inputRastreamento">
+                <option value="em andamento">Em andamento</option>
+                <option value="concluido">Concluído</option>
+                <option value="atrasado">Atrasado</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarLabel">Editar Registro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="editFuncionario">Funcionário</label>
+              <input type="text" class="form-control" id="editFuncionario" required>
+            </div>
+            <div class="form-group">
+              <label for="editFazenda">Fazenda</label>
+              <input type="text" class="form-control" id="editFazenda" required>
+            </div>
+            <div class="form-group">
+              <label for="editControleEstoque">Controle de Estoque</label>
+              <select class="form-control" id="editControleEstoque">
+                <option value="em andamento">Em andamento</option>
+                <option value="concluido">Concluído</option>
+                <option value="atrasado">Atrasado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editCadernoPonto">Caderno de Ponto</label>
+              <select class="form-control" id="editCadernoPonto">
+                <option value="em andamento">Em andamento</option>
+                <option value="concluido">Concluído</option>
+                <option value="atrasado">Atrasado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editRastreamento">Rastreamento</label>
+              <select class="form-control" id="editRastreamento">
+                <option value="em andamento">Em andamento</option>
+                <option value="concluido">Concluído</option>
+                <option value="atrasado">Atrasado</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js" integrity="sha384-LX5ibj3Zd9LKaDngvzpzOV3UJpDQ3lt95A8R4EwFbMyS4nXhYzIKCkYYj3N9gBFA" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+J2yCYBvFNR+AHz4ZO83sdo+CKFk0JapPL0" crossorigin="anonymous"></script>
+  <script src="../src/OperacaoController.js"></script>
+
+</body>
+</html>

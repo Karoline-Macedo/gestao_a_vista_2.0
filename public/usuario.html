@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - Gestão a Vista</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="style_usuario.css">
+</head>
+<body>
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="assets/logoAgroPCP.png" alt="Logo" width="45" height="45" class="d-inline-block align-top">
+        Gestão a Vista
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Voltar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html">Sair</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container d-flex justify-content-center align-items-center" style="margin-top: 6rem;">
+    <div class="row"> 
+      <div>
+        <div id="divImg">
+            <img src="assets/perfil.jpg" alt="Imagem de Perfil" class="img-fluid rounded-circle" width="150" height="150">
+            <h2 style="padding-left: 13.5px;">Karoline</h2>
+        </div>
+        <!-- Botão do modal -->
+         <div id="divBtn">
+             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEditarUser" style="background-color: gray ;border-color:gray;">
+               Editar Usuário
+             </button>
+         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal editar user -->
+  <div class="modal fade" id="modalEditarUser" tabindex="-1" role="dialog" aria-labelledby="modalEditarUserLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarUserLabel">Editar Usuário</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="editUser">Usuário</label>
+              <input type="text" class="form-control" id="editUser" placeholder="Digite o usuário">
+            </div>
+            <div class="form-group">
+              <label for="editSenha">Senha</label>
+              <input type="password" class="form-control" id="editSenha" placeholder="Digite a senha">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js" integrity="sha384-LX5ibj3Zd9LKaDngvzpzOV3UJpDQ3lt95A8R4EwFbMyS4nXhYzIKCkYYj3N9gBFA" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+J2yCYBvFNR+AHz4ZO83sdo+CKFk0JapPL0" crossorigin="anonymous"></script>
+  <script src="usuario.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+body {
+    background-color: whitesmoke;
+  }
+  
+  .login-form {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+  }
+  .full-height {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .centered-card {
+    width: 100%;
+    max-width: 500px;
+    transform: translateY(-1in); /* Move o menu para cima */
+  }
+  
+  
