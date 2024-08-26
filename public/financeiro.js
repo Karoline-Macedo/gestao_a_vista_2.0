@@ -20,7 +20,7 @@ var selectFechamento = document.getElementById("newFechamento");
 
 var txtPesquisa = document.getElementById("txtPesquisa");
 
-const modal = new bootstrap.Modal(document.getElementById('modalEditar'));
+const modalEdit = new bootstrap.Modal(document.getElementById('modalEditar'));
 const modalAdd = new bootstrap.Modal(document.getElementById('modalNovoRegistro'));
 const modalExcluir = new bootstrap.Modal(document.getElementById('modalExcluir'));
 
@@ -77,7 +77,7 @@ function mostrar(dados) {
             + "<td>" + conciliacaoStatus + "</td>"
             + "<td>" + fechamentoStatus + "</td>"
             + "<td>"
-            +   "<button type='button' class='btn btn-primary' onclick='alterar("+id+")'>Alterar</button>"
+            +   "<button type='button' class='btn btn-primary' onclick='alterar("+JSON.stringify(dados[i])+")'>Alterar</button>"
             +   " "
             +   "<button type='button' class='btn btn-danger' onclick='excluir("+id+")'>Excluir</button>"
             + "</td>"
@@ -122,6 +122,50 @@ function setRegistro() {
         modalAdd.hide();
         listar();
     })
+};
+
+function alterar(dados) {
+
+    modalEdit.style.display = "grid";
+
+    document.getElementById("editFuncionario").value = dados.nome_func;
+    document.getElementById("editFazenda").value = dados.atividades[0].nome_fazenda;
+    
+    // const dados = {
+    //     idfuncionario: selectFuncionario.value,
+    //     idfazenda: selectFazenda.value,
+    //     atividades : [
+    //         {
+    //             idatividade: 4,
+    //             idStatusRh: selectRH.value
+    //         },
+    //         {
+    //             idatividade: 5,
+    //             idStatusConcilicao: selectConcilicao.value
+    //         },
+    //         {
+    //             idatividade: 6,
+    //             idStatusFechamento: selectFechamento.value
+    //         }
+    //     ]
+    // };
+
+    // url = "http://127.0.0.1:3333/cad_funcionario_dados";
+    // metodo = "POST";
+
+    // fetch(url,
+    //     {
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //             },
+    //         method: metodo, 
+    //         body: JSON.stringify(dados)
+    //     }
+    // ).then(() => {
+    //     modalAdd.hide();
+    //     listar();
+    // })
 };
 
 function excluir(id) {
