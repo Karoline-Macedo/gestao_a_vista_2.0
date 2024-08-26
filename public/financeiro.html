@@ -30,52 +30,41 @@
     </div>
   </nav>
 
-  <div class="row mt-4">
+  <div class="row mt-4" style="margin: 0;">
     <div class="col-auto ml-auto">
       <div class="input-group mb-3" style="width: 300px;">
         <input type="text" class="form-control" id="txtPesquisa" aria-label="Username" aria-describedby="basic-addon1" placeholder="Pesquisar" style="border-radius: 10px;" onkeyup="filtroTabela(this, 'tblFinanceiro')">
-
       </div>
     </div>
   </div>
   
-  
-
   <div class="container mt-4">
     <div class="row">
       <div class="col-md-12">
         <h2>Tabela Financeiro</h2>
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalNovoRegistro">Novo Registro</button>
         <!-- <button type="button" class="btn btn-primary" onclick="novo()">Novo</button> -->
-        <table class="table" id="tblFinanceiro">
-          <thead class="thead-dark">
-            <tr>
-              <th>Funcionário</th>
-              <th>Fazenda</th>
-              <th>Recursos Humanos</th>
-              <th>Conciliação</th>
-              <th>Fechamento</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="lista">
-            <!-- <tr>
-              <td>Funcionário 1</td>
-              <td>Fazenda A</td>
-              <td><span class="badge badge-warning">Em andamento</span></td>
-              <td><span class="badge badge-success">Concluído</span></td>
-              <td><span class="badge badge-danger">Atrasado</span></td>
-              <td>
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditar">Editar</button>
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalExcluir">Apagar</button>
-              </td>
-            </tr> -->
-          </tbody>
-        </table>
+         <div  style="max-height: 20vw; overflow-y: auto; margin-bottom: 15px;">
+          <table class="table" id="tblFinanceiro">
+            <thead class="thead-dark" style="position: sticky; top: 0;">
+              <tr>
+                <th>Funcionário</th>
+                <th>Fazenda</th>
+                <th>Recursos Humanos</th>
+                <th>Conciliação</th>
+                <th>Fechamento</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista">
+            </tbody>
+          </table>
+         </div>
         <a href="menu.html" class="btn btn-secondary">Voltar</a>
       </div>
     </div>
   </div>
+
 <!--NOVO-->
   <div class="modal fade" id="modalNovoRegistro" tabindex="-1" role="dialog" aria-labelledby="modalNovoRegistroLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -90,7 +79,7 @@
           <form>
             <div class="form-group">
               <label for="txtFuncionario">Funcionário</label>
-              <select class="form-control" id="editFuncionario">
+              <select class="form-control" id="newFuncionario">
                 <option value="" selected disabled hidden>Selecione uma opção</option>
                 <option value="1">Afonso</option>
                 <option value="2">Anderson</option>
@@ -101,43 +90,43 @@
             </div>
             <div class="form-group">
               <label for="editFazenda">Fazenda</label>
-              <select class="form-control" id="editFazenda">
+              <select class="form-control" id="newFazenda">
                   <option value="" selected disabled hidden>Selecione uma opção</option>
-                  <option value="Faz. Sto. Amaro">Faz. Sto. Amaro</option>
-                  <option value="Faz. Serra Azul">Faz. Serra Azul</option>
-                  <option value="Faz. Rio Vermelho">Faz. Rio Vermelho</option>
-                  <option value="Faz. Santana">Faz. Santana</option>
-                  <option value="Faz. Serrinha">Faz. Serrinha</option>
+                  <option value="1">Faz. Sto. Amaro</option>
+                  <option value="2">Faz. Serra Azul</option>
+                  <option value="3">Faz. Rio Vermelho</option>
+                  <option value="4">Faz. Santana</option>
+                  <option value="5">Faz. Serrinha</option>
               </select>
           </div>
             <div class="form-group">
               <label for="txtRecursosHumanos">Recursos Humanos</label>
-              <select class="form-control" id="txtRecursosHumanos">
+              <select class="form-control" id="newRecursosHumanos">
                 <option value="" selected disabled hidden>Selecione uma opção</option>
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
               <label for="txtConciliacao">Conciliação</label>
-              <select class="form-control" id="txtConciliacao">
+              <select class="form-control" id="newConciliacao">
                 <option value="" selected disabled hidden>Selecione uma opção</option>
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
               <label for="txtFechamento">Fechamento</label>
-              <select class="form-control" id="txtFechamento">
+              <select class="form-control" id="newFechamento">
                 <option value="" selected disabled hidden>Selecione uma opção</option>
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="submit" class="btn btn-primary" onclick="setRegistro()">Salvar</button>
           </form>
         </div>
       </div>
@@ -212,6 +201,7 @@
     </div>
   </div>
 
+<!-- EXCLUIR -->
 <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -219,8 +209,7 @@
           Confirma a exclusão?            
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"
-          onclick="excluirSim()">
+          <button type="button" class="btn btn-secondary" onclick="excluirSim()">
             Sim
           </button>
           <button type="button" class="btn btn-danger"

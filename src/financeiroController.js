@@ -70,105 +70,191 @@ async function connect() {
 //     res.status(200).send('Status da atividade do funcionário atualizado com sucesso!');
 // };
 
+
+
+
+// exports.insertFuncionario_financeiro = async (req, res, next) => {
+//     const conn = await connect();
+
+//     try {
+//         await conn.beginTransaction();
+
+//         const sqlAtividade = "INSERT INTO cad_funcionario_atividade (idfuncionario, idatividade, idfazenda) VALUES (?, ?, ?)";
+//         const valuesAtividade = [req.body.idfuncionario, req.body.idatividade, req.body.idfazenda];
+//         const [resultAtividade] = await conn.query(sqlAtividade, valuesAtividade);
+
+//         if (resultAtividade.affectedRows === 0) {
+//             await conn.rollback();
+//             return res.status(500).send('Erro ao inserir atividade do funcionário.');
+//         };
+
+//         const SELECTId = "SELECT idfunc_atividade FROM cad_funcionario_atividade ORDER BY idfunc_atividade LIMIT 1";
+//         const resultSelect = await conn.query(SELECTId);
+
+//         const sqlStatus = "INSERT INTO cad_status_func_atividade (idstatus, idfunc_ativ_faz) VALUES (?, ?)";
+//         const valuesStatus = [req.body.idstatus, resultSelect];
+//         await conn.query(sqlStatus, valuesStatus);
+
+//         if (resultFazenda.affectedRows === 0) {
+//             await conn.rollback();
+//             return res.status(500).send('Erro ao inserir status da atividade.');
+//         };
+
+//         await conn.commit();
+
+//         res.status(201).send('Dados do funcionário inseridos com sucesso!');
+//     } catch (error) {
+//         await conn.rollback();
+//         res.status(500).send(error.message);
+//     } finally {
+//         conn.release();
+//     };
+// };
+
+
 exports.insertFuncionario_financeiro = async (req, res, next) => {
     const conn = await connect();
 
     try {
         await conn.beginTransaction();
 
-        // Inserção na tabela cad_funcionario_atividade
-        for (i = 0; i < req.body.atividades.lenght; i ++) {
-            
-        }
+        const atividades = req.body.atividades;
 
-        const sqlAtividade = "INSERT INTO cad_funcionario_atividade (idfuncionario, idatividade, idfazenda) VALUES (?, ?, ?)";
-        const valuesAtividade = [req.body.idfuncionario, req.body.idatividade, req.body.idfazenda];
-        const [resultAtividade] = await conn.query(sqlAtividade, valuesAtividade);
+        for (const atividade of atividades) {
+            const sqlAtividade = `
+                INSERT INTO cad_funcionario_atividade (idfuncionario, idatividade, idfazenda)
+                VALUES (?, ?, ?)`;
+            const valuesAtividade = [
+                req.body.idfuncionario,
+                atividade.idatividade,
+                req.body.idfazenda
+            ];
+            const [resultAtividade] = await conn.query(sqlAtividade, valuesAtividade);
 
-        if (resultAtividade.affectedRows === 0) {
-            await conn.rollback();
-            return res.status(500).send('Erro ao inserir atividade do funcionário.');
-        };
+            if (resultAtividade.affectedRows === 0) {
+                await conn.rollback();
+                return res.status(500).send('Erro ao inserir atividade do funcionário.');
+            };
 
-        // // Inserção na tabela cad_funcionario_fazenda
-        // const sqlFazenda = "INSERT INTO cad_funcionario_fazenda (idfuncionario, idfazenda) VALUES (?, ?)";
-        // const valuesFazenda = [req.body.idfuncionario, req.body.idfazenda];
-        // const [resultFazenda] = await conn.query(sqlFazenda, valuesFazenda);
+            const idFuncAtividade = resultAtividade.insertId;
 
-        // if (resultFazenda.affectedRows === 0) {
-        //     await conn.rollback();
-        //     return res.status(500).send('Erro ao inserir fazenda do funcionário.');
-        // };
+            let idStatus;
+            if (atividade.idatividade === 4) {
+                idStatus = atividade.idStatusRh;
+            } else if (atividade.idatividade === 5) {
+                idStatus = atividade.idStatusConcilicao;
+            } else if (atividade.idatividade === 6) {
+                idStatus = atividade.idStatusFechamento;
+            } else {
+                await conn.rollback();
+                return res.status(500).send('Atividade desconhecida.');
+            };
 
-        const SELECTId = "SELECT idfunc_atividade FROM cad_funcionario_atividade ORDER BY idfunc_atividade LIMIT 1";
-        const resultSelect = await conn.query(SELECTId);
+            const sqlStatus = `
+                INSERT INTO cad_status_func_atividade (idstatus, idfunc_ativ_faz)
+                VALUES (?, ?)`;
+            const valuesStatus = [idStatus, idFuncAtividade];
+            const [resultStatus] = await conn.query(sqlStatus, valuesStatus);
 
-        // Inserção na tabela cad_status_func_atividade
-        const sqlStatus = "INSERT INTO cad_status_func_atividade (idstatus, idfunc_ativ_faz) VALUES (?, ?)";
-        const valuesStatus = [req.body.idstatus, resultSelect];
-        await conn.query(sqlStatus, valuesStatus);
-
-        if (resultFazenda.affectedRows === 0) {
-            await conn.rollback();
-            return res.status(500).send('Erro ao inserir status da atividade.');
+            if (resultStatus.affectedRows === 0) {
+                await conn.rollback();
+                return res.status(500).send('Erro ao inserir status da atividade.');
+            };
         };
 
         await conn.commit();
-
         res.status(201).send('Dados do funcionário inseridos com sucesso!');
     } catch (error) {
         await conn.rollback();
         res.status(500).send(error.message);
-    } finally {
-        conn.release();
-    };
+    }
 };
 
 exports.updateFuncionario_financeiro = async (req, res, next) => {
+    // const conn = await connect();
+
+    // try {
+    //     await conn.beginTransaction();
+
+    //     // Update na tabela cad_funcionario_atividade
+    //     const sqlAtividade = "UPDATE cad_funcionario_atividade SET idatividade = ?, idfazenda = ?, idstatus = ?  WHERE idfunc_atividade = ?";
+    //     const valuesAtividade = [req.body.idatividade, req.body.idfuncionario];
+    //     const [resultFazenda] = await conn.query(sqlAtividade, valuesAtividade);
+
+    //     if (resultFazenda.affectedRows === 0) {
+    //         await conn.rollback();
+    //         return res.status(500).send('Erro ao atualizar atividade do funcionário.');
+    //     };
+
+    //     // Update na tabela cad_funcionario_fazenda
+    //     const sqlFazenda = "UPDATE cad_funcionario_fazenda SET idfazenda = ? WHERE idfuncionario = ?";
+    //     const valuesFazenda = [req.body.idfazenda, req.body.idfuncionario];
+    //     [resultFazenda] = await conn.query(sqlFazenda, valuesFazenda);
+
+    //     if (resultFazenda.affectedRows === 0) {
+    //         await conn.rollback();
+    //         return res.status(500).send('Erro ao atualizar fazenda do funcionário.');
+    //     };
+
+    //     // Update na tabela cad_status_func_atividade
+    //     const sqlStatus = "UPDATE cad_status_func_atividade SET idstatus = ? WHERE idfuncionario = ? AND idfazenda = ? AND idatividade = ?";
+    //     const valuesStatus = [req.body.idstatus, req.body.idfuncionario, req.body.idfazenda, req.body.idatividade];
+    //     const [resultStatusAtividade] = await conn.query(sqlStatus, valuesStatus);
+
+    //     if (resultStatusAtividade.affectedRows === 0) {
+    //         await conn.rollback();
+    //         return res.status(500).send('Erro ao atualizar status da atividade.');
+    //     };
+
+    //     await conn.commit();
+
+    //     res.status(200).send('Dados do funcionário atualizados com sucesso!');
+    // } catch (error) {
+    //     await conn.rollback();
+    //     res.status(500).send(error.message);
+    // } finally {
+    //     conn.release();
+    // };
+
     const conn = await connect();
 
     try {
         await conn.beginTransaction();
 
-        // Update na tabela cad_funcionario_atividade
-        const sqlAtividade = "UPDATE cad_funcionario_atividade SET idatividade = ?, idfazenda = ?, idstatus = ?  WHERE idfunc_atividade = ?";
-        const valuesAtividade = [req.body.idatividade, req.body.idfuncionario];
-        const [resultFazenda] = await conn.query(sqlAtividade, valuesAtividade);
+        const atividades = req.body.atividades;
 
-        if (resultFazenda.affectedRows === 0) {
-            await conn.rollback();
-            return res.status(500).send('Erro ao atualizar atividade do funcionário.');
-        };
+        for (const atividade of atividades) {
+            let idStatus;
+            if (atividade.idatividade === 4) {
+                idStatus = atividade.idStatusRh;
+            } else if (atividade.idatividade === 5) {
+                idStatus = atividade.idStatusConcilicao;
+            } else if (atividade.idatividade === 6) {
+                idStatus = atividade.idStatusFechamento;
+            } else {
+                await conn.rollback();
+                return res.status(500).send('Atividade desconhecida.');
+            };
 
-        // Update na tabela cad_funcionario_fazenda
-        const sqlFazenda = "UPDATE cad_funcionario_fazenda SET idfazenda = ? WHERE idfuncionario = ?";
-        const valuesFazenda = [req.body.idfazenda, req.body.idfuncionario];
-        [resultFazenda] = await conn.query(sqlFazenda, valuesFazenda);
+            const sqlUpdateStatus = `
+                UPDATE cad_status_func_atividade
+                SET idstatus = ?
+                WHERE idfunc_ativ_faz = (SELECT id FROM cad_funcionario_atividade WHERE idfuncionario = ? AND idatividade = ?)`;
+            const valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade];
+            const [resultUpdateStatus] = await conn.query(sqlUpdateStatus, valuesUpdateStatus);
 
-        if (resultFazenda.affectedRows === 0) {
-            await conn.rollback();
-            return res.status(500).send('Erro ao atualizar fazenda do funcionário.');
-        };
-
-        // Update na tabela cad_status_func_atividade
-        const sqlStatus = "UPDATE cad_status_func_atividade SET idstatus = ? WHERE idfuncionario = ? AND idfazenda = ? AND idatividade = ?";
-        const valuesStatus = [req.body.idstatus, req.body.idfuncionario, req.body.idfazenda, req.body.idatividade];
-        const [resultStatusAtividade] = await conn.query(sqlStatus, valuesStatus);
-
-        if (resultStatusAtividade.affectedRows === 0) {
-            await conn.rollback();
-            return res.status(500).send('Erro ao atualizar status da atividade.');
+            if (resultUpdateStatus.affectedRows === 0) {
+                await conn.rollback();
+                return res.status(500).send('Erro ao atualizar status da atividade.');
+            };
         };
 
         await conn.commit();
-
-        res.status(200).send('Dados do funcionário atualizados com sucesso!');
+        res.status(200).send('Status das atividades do funcionário atualizados com sucesso!');
     } catch (error) {
         await conn.rollback();
         res.status(500).send(error.message);
-    } finally {
-        conn.release();
-    };
+    }
 };
 
 exports.get = async (req, res, next) => {
@@ -214,14 +300,13 @@ exports.get = async (req, res, next) => {
 
     const [rows] = await conn.query(sql);
     res.status(200).send(rows);
- };
+};
 
-
- exports.deleteFuncionario_financeiro = async (req, res, next) => {
+exports.deleteFuncionario_financeiro = async (req, res, next) => {
     let id = req.params.id;
     const conn = await connect();
 
-    const sqlDelete = "UPDATE cad_funcionario_atividade SET data_desativacao = now() WHERE idfunc_atividade = ?";
+    const sqlDelete = "UPDATE cad_funcionario_atividade SET data_desativacao = now() WHERE idfuncionario = ? and data_desativacao is null";
     const valuesDelete = [id];
     await conn.query(sqlDelete, valuesDelete);
 
