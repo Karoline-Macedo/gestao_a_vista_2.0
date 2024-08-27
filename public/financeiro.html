@@ -147,56 +147,44 @@
           <form>
             <div class="form-group">
               <label for="editFuncionario">Funcionário</label>
-              <!-- <select class="form-control" id="editFuncionario">
-                <option value="" selected disabled hidden>Selecione uma opção</option>
-                <option value="Afonso">Afonso</option>
-                <option value="Anderson">Anderson</option>
-                <option value="Beatriz">Beatriz</option>
-                <option value="Camila">Camila</option>
-                <option value="Carlos">Carlos</option>
-            </select> -->
-            <input type="text" id="editFuncionario" readonly>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="editFuncionario" readonly>
+              </div>
             </div>
             <div class="form-group">
               <label for="editFazenda">Fazenda</label>
-              <!-- <select class="form-control" id="editFazenda">
-                  <option value="" selected disabled hidden>Selecione uma opção</option>
-                  <option value="Faz. Sto. Amaro">Faz. Sto. Amaro</option>
-                  <option value="Faz. Serra Azul">Faz. Serra Azul</option>
-                  <option value="Faz. Rio Vermelho">Faz. Rio Vermelho</option>
-                  <option value="Faz. Santana">Faz. Santana</option>
-                  <option value="Faz. Serrinha">Faz. Serrinha</option>
-              </select> -->
-              <input type="text" id="editFazenda" readonly>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="editFazenda" readonly>
+              </div>
           </div>
             <div class="form-group">
               <label for="editRecursosHumanos">Recursos Humanos</label>
               <select class="form-control" id="editRecursosHumanos">
                 <option value="" selected disabled hidden>Selecione uma opção</option>
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
               <label for="editConciliacao">Conciliação</label>
               <select class="form-control" id="editConciliacao">
                 <option value="" selected disabled hidden>Selecione uma opção</option>
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
               <label for="editFechamento">Fechamento</label>
               <select class="form-control" id="editFechamento">
                 <option value="" selected disabled hidden>Selecione uma opção</option>
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <button type="submit" class="btn btn-primary" onclick="alterarSim()">Atualizar</button>
           </form>
         </div>
       </div>
@@ -214,8 +202,9 @@
           <button type="button" class="btn btn-secondary" onclick="excluirSim()">
             Sim
           </button>
-          <button type="button" class="btn btn-danger"
-           data-bs-dismiss="modal">Não</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="fecharModal()">
+            Não
+          </button>
         </div>
       </div>
     </div>

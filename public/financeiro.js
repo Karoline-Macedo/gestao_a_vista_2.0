@@ -1,4 +1,5 @@
 var idatual = "";
+var idfuncionario_update = "";
 // var idfazenda = "";
 // var txtFazenda = document.getElementById("txtFazenda");
 // var txtRecursosHumanos = document.getElementById("txtRecursosHumanos");
@@ -17,6 +18,12 @@ var selectFazenda = document.getElementById("newFazenda");
 var selectRH = document.getElementById("newRecursosHumanos");
 var selectConcilicao = document.getElementById("newConciliacao");
 var selectFechamento = document.getElementById("newFechamento");
+
+var editFuncionario = document.getElementById("editFuncionario");
+var editFazenda = document.getElementById("editFazenda");
+var editRH = document.getElementById("editRecursosHumanos");
+var editConcilicao = document.getElementById("editConciliacao");
+var editFechamento = document.getElementById("editFechamento");
 
 var txtPesquisa = document.getElementById("txtPesquisa");
 
@@ -126,46 +133,62 @@ function setRegistro() {
 
 function alterar(dados) {
 
-    modalEdit.style.display = "grid";
+    modalEdit.show();
+
+    idfuncionario_update = dados.idfuncionario;
 
     document.getElementById("editFuncionario").value = dados.nome_func;
     document.getElementById("editFazenda").value = dados.atividades[0].nome_fazenda;
+
+    for (atividade of dados.atividades) {
+        if (atividade.idatividade == 4) {
+            document.getElementById("editRecursosHumanos").value = atividade.idstatus;
+        } else if (atividade.idatividade == 5) {
+            document.getElementById("editConciliacao").value = atividade.idstatus;
+        } else if (atividade.idatividade == 6) {
+            document.getElementById("editFechamento").value = atividade.idstatus;
+        };
+    };
+};
+
+function alterarSim() {
+
+    const dados = {
+        idfuncionario: idfuncionario_update,
+        atividades : [
+            {
+                idatividade: 4,
+                idStatusRh: editRH.value
+            },
+            {
+                idatividade: 5,
+                idStatusConcilicao: editConcilicao.value
+            },
+            {
+                idatividade: 6,
+                idStatusFechamento: editFechamento.value
+            }
+        ]
+    };
+
+    // console.log(dados);
     
-    // const dados = {
-    //     idfuncionario: selectFuncionario.value,
-    //     idfazenda: selectFazenda.value,
-    //     atividades : [
-    //         {
-    //             idatividade: 4,
-    //             idStatusRh: selectRH.value
-    //         },
-    //         {
-    //             idatividade: 5,
-    //             idStatusConcilicao: selectConcilicao.value
-    //         },
-    //         {
-    //             idatividade: 6,
-    //             idStatusFechamento: selectFechamento.value
-    //         }
-    //     ]
-    // };
+    url = `http://127.0.0.1:3333/cad_funcionario_dados`;
+    metodo = "PUT";
 
-    // url = "http://127.0.0.1:3333/cad_funcionario_dados";
-    // metodo = "POST";
-
-    // fetch(url,
-    //     {
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //             },
-    //         method: metodo, 
-    //         body: JSON.stringify(dados)
-    //     }
-    // ).then(() => {
-    //     modalAdd.hide();
-    //     listar();
-    // })
+    fetch(url,
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            method: metodo, 
+            body: JSON.stringify(dados)
+        }
+    ).then(() => {
+        modalEdit.hide();
+        listar();
+    })
 };
 
 function excluir(id) {
@@ -191,6 +214,10 @@ function excluirSim() {
         modalExcluir.hide();
         listar();
     })
+};
+
+function fecharModal() {
+    modalExcluir.hide();
 };
 
 function filtroTabela(elemento, table) {
