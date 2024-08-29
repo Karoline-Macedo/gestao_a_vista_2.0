@@ -135,6 +135,13 @@ function alterar(dados) {
 
     modalEdit.show();
 
+    idfuncionario_update = "";
+    document.getElementById("editFuncionario").value = "";
+    document.getElementById("editFazenda").value = "";
+    document.getElementById("editRecursosHumanos").value = "";
+    document.getElementById("editConciliacao").value = "";
+    document.getElementById("editFechamento").value = "";
+
     idfuncionario_update = dados.idfuncionario;
 
     document.getElementById("editFuncionario").value = dados.nome_func;

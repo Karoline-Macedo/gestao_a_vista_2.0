@@ -221,9 +221,9 @@ exports.updateFuncionario_financeiro = async (req, res, next) => {
     try {
         await conn.beginTransaction();
 
-        const atividades = req.body.atividades;
+        let atividades = req.body.atividades;
 
-        for (const atividade of atividades) {
+        for (let atividade of atividades) {
             let idStatus;
             if (atividade.idatividade === 4) {
                 idStatus = atividade.idStatusRh;
@@ -236,12 +236,12 @@ exports.updateFuncionario_financeiro = async (req, res, next) => {
                 return res.status(500).send('Atividade desconhecida.');
             };
 
-            const sqlUpdateStatus = `
+            let sqlUpdateStatus = `
                 UPDATE cad_status_func_atividade
                 SET idstatus = ?
-                WHERE idfunc_ativ_faz = (SELECT id FROM cad_funcionario_atividade WHERE idfuncionario = ? AND idatividade = ?)`;
-            const valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade];
-            const [resultUpdateStatus] = await conn.query(sqlUpdateStatus, valuesUpdateStatus);
+                WHERE idfunc_ativ_faz = (SELECT idfunc_atividade FROM cad_funcionario_atividade WHERE idfuncionario = ? AND idatividade = ? and data_desativacao is null)`;
+            let valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade];
+            let [resultUpdateStatus] = await conn.query(sqlUpdateStatus, valuesUpdateStatus);
 
             if (resultUpdateStatus.affectedRows === 0) {
                 await conn.rollback();

@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Operacional</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles.css">
+  <!-- <link rel="stylesheet" href="styles.css"> -->
 </head>
-
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" href="index.html"><img src="assets/logoAgroPCP.png" alt="Logo" width="45" height="45" class="d-inline-block align-top">
         Gestão a Vista
@@ -23,53 +23,54 @@
             <a class="nav-link" href="#">Usuário</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="login.html">Sair</a>
+            <a class="nav-link" href="index.html">Sair</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
+  <div class="row mt-4" style="margin: 0;">
+    <div class="col-auto ml-auto">
+      <div class="input-group mb-3" style="width: 300px;">
+        <input type="text" class="form-control" id="txtPesquisa" aria-label="Username" aria-describedby="basic-addon1" placeholder="Pesquisar" style="border-radius: 10px;" onkeyup="filtroTabela(this, 'tblFinanceiro')">
+      </div>
+    </div>
+  </div>
+  
   <div class="container mt-4">
     <div class="row">
       <div class="col-md-12">
-        <h2>Tabela de Operacional</h2>
+        <h2>Tabela Operacional</h2>
         <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalNovoRegistro">Novo Registro</button>
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th>Funcionário</th>
-              <th>Fazenda</th>
-              <th>Controle de Estoque</th>
-              <th>Caderno de Ponto</th>
-              <th>Rastreamento</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Funcionário 1</td>
-              <td>Fazenda A</td>
-              <td><span class="badge badge-warning">Em andamento</span></td>
-              <td><span class="badge badge-success">Concluído</span></td>
-              <td><span class="badge badge-danger">Atrasado</span></td>
-              <td>
-                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalEditar">Editar</button>
-              </td>
-            </tr>
-            
-          </tbody>
-        </table>
-        <a href="index.html" class="btn btn-secondary">Voltar</a>
+        <!-- <button type="button" class="btn btn-primary" onclick="novo()">Novo</button> -->
+         <div  style="max-height: 20vw; overflow-y: auto; margin-bottom: 15px;">
+          <table class="table" id="tblOperacional">
+            <thead class="thead-dark" style="position: sticky; top: 0;">
+              <tr>
+                <th>Funcionário</th>
+                <th>Fazenda</th>
+                <th>Controle de Estoque</th>
+                <th>Caderno de Pontos</th>
+                <th>Rastreamento</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista">
+            </tbody>
+          </table>
+         </div>
+        <a href="menu.html" class="btn btn-secondary">Voltar</a>
       </div>
     </div>
   </div>
 
+<!--NOVO-->
   <div class="modal fade" id="modalNovoRegistro" tabindex="-1" role="dialog" aria-labelledby="modalNovoRegistroLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalNovoRegistroLabel">Novo Registro</h5>
+          <h5 class="modal-title" id="modalNovoRegistroLabel">Novo Registro Operacional</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -77,49 +78,67 @@
         <div class="modal-body">
           <form>
             <div class="form-group">
-              <label for="inputFuncionario">Funcionário</label>
-              <input type="text" class="form-control" id="inputFuncionario" required>
+              <label for="txtFuncionario">Funcionário</label>
+              <select class="form-control" id="newFuncionario">
+                <option value="" selected disabled hidden>Selecione uma opção</option>
+                <option value="1">Afonso</option>
+                <option value="2">Anderson</option>
+                <option value="3">Beatriz</option>
+                <option value="4">Camila</option>
+                <option value="5">Carlos</option>
+            </select>
             </div>
             <div class="form-group">
-              <label for="inputFazenda">Fazenda</label>
-              <input type="text" class="form-control" id="inputFazenda" required>
-            </div>
+              <label for="editFazenda">Fazenda</label>
+              <select class="form-control" id="newFazenda">
+                  <option value="" selected disabled hidden>Selecione uma opção</option>
+                  <option value="1">Faz. Sto. Amaro</option>
+                  <option value="2">Faz. Serra Azul</option>
+                  <option value="3">Faz. Rio Vermelho</option>
+                  <option value="4">Faz. Santana</option>
+                  <option value="5">Faz. Serrinha</option>
+              </select>
+          </div>
             <div class="form-group">
-              <label for="inputControleEstoque">Controle de Estoque</label>
-              <select class="form-control" id="inputControleEstoque">
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+              <label for="txtControleEstoque">Controle de Estoque</label>
+              <select class="form-control" id="newControleEstoque">
+                <option value="" selected disabled hidden>Selecione uma opção</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="inputCadernoPonto">Caderno de Ponto</label>
-              <select class="form-control" id="inputCadernoPonto">
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+              <label for="txtCadernoPonto">Caderno de Pontos</label>
+              <select class="form-control" id="newCadernoPontos">
+                <option value="" selected disabled hidden>Selecione uma opção</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="inputRastreamento">Rastreamento</label>
-              <select class="form-control" id="inputRastreamento">
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+              <label for="txtRastreamento">Rastreamento</label>
+              <select class="form-control" id="newRastreamento">
+                <option value="" selected disabled hidden>Selecione uma opção</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="submit" class="btn btn-primary" onclick="setRegistro()">Salvar</button>
           </form>
         </div>
       </div>
     </div>
   </div>
 
+<!--EDITAR-->
   <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalEditarLabel">Editar Registro</h5>
+          <h5 class="modal-title" id="modalEditarLabel">Editar Registro Financeiro</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -128,47 +147,72 @@
           <form>
             <div class="form-group">
               <label for="editFuncionario">Funcionário</label>
-              <input type="text" class="form-control" id="editFuncionario" required>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="editFuncionario" readonly>
+              </div>
             </div>
             <div class="form-group">
               <label for="editFazenda">Fazenda</label>
-              <input type="text" class="form-control" id="editFazenda" required>
-            </div>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" aria-describedby="basic-addon1" id="editFazenda" readonly>
+              </div>
+          </div>
             <div class="form-group">
               <label for="editControleEstoque">Controle de Estoque</label>
               <select class="form-control" id="editControleEstoque">
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="" selected disabled hidden>Selecione uma opção</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="editCadernoPonto">Caderno de Ponto</label>
-              <select class="form-control" id="editCadernoPonto">
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+              <label for="editCadernoPontos">Caderno de Pontos</label>
+              <select class="form-control" id="editCadernoPontos">
+                <option value="" selected disabled hidden>Selecione uma opção</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
             <div class="form-group">
               <label for="editRastreamento">Rastreamento</label>
               <select class="form-control" id="editRastreamento">
-                <option value="em andamento">Em andamento</option>
-                <option value="concluido">Concluído</option>
-                <option value="atrasado">Atrasado</option>
+                <option value="" selected disabled hidden>Selecione uma opção</option>
+                <option value="1">Em andamento</option>
+                <option value="2">Concluído</option>
+                <option value="3">Atrasado</option>
               </select>
             </div>
-            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <button type="submit" class="btn btn-primary" onclick="alterarSim()">Atualizar</button>
           </form>
         </div>
       </div>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js" integrity="sha384-LX5ibj3Zd9LKaDngvzpzOV3UJpDQ3lt95A8R4EwFbMyS4nXhYzIKCkYYj3N9gBFA" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+J2yCYBvFNR+AHz4ZO83sdo+CKFk0JapPL0" crossorigin="anonymous"></script>
-  <script src="../src/OperacaoController.js"></script>
+<!-- EXCLUIR -->
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          Confirma a exclusão?            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="excluirSim()">
+            Sim
+          </button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="fecharModal()">
+            Não
+          </button>
+        </div>
+      </div>
+    </div>
+</div>
 
-</body>
-</html>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="operacional.js"></script>
+  <!-- <script src="util.js"></script> -->
+  
