@@ -112,7 +112,7 @@ async function connect() {
 // };
 
 
-exports.insertFuncionario_financeiro = async (req, res, next) => {
+exports.insertFuncionario_operacao = async (req, res, next) => {
   const conn = await connect();
 
   try {
@@ -170,51 +170,8 @@ exports.insertFuncionario_financeiro = async (req, res, next) => {
   }
 };
 
-exports.updateFuncionario_financeiro = async (req, res, next) => {
-  // const conn = await connect();
+exports.updateFuncionario_operacao = async (req, res, next) => {
 
-  // try {
-  //     await conn.beginTransaction();
-
-  //     // Update na tabela cad_funcionario_atividade
-  //     const sqlAtividade = "UPDATE cad_funcionario_atividade SET idatividade = ?, idfazenda = ?, idstatus = ?  WHERE idfunc_atividade = ?";
-  //     const valuesAtividade = [req.body.idatividade, req.body.idfuncionario];
-  //     const [resultFazenda] = await conn.query(sqlAtividade, valuesAtividade);
-
-  //     if (resultFazenda.affectedRows === 0) {
-  //         await conn.rollback();
-  //         return res.status(500).send('Erro ao atualizar atividade do funcionário.');
-  //     };
-
-  //     // Update na tabela cad_funcionario_fazenda
-  //     const sqlFazenda = "UPDATE cad_funcionario_fazenda SET idfazenda = ? WHERE idfuncionario = ?";
-  //     const valuesFazenda = [req.body.idfazenda, req.body.idfuncionario];
-  //     [resultFazenda] = await conn.query(sqlFazenda, valuesFazenda);
-
-  //     if (resultFazenda.affectedRows === 0) {
-  //         await conn.rollback();
-  //         return res.status(500).send('Erro ao atualizar fazenda do funcionário.');
-  //     };
-
-  //     // Update na tabela cad_status_func_atividade
-  //     const sqlStatus = "UPDATE cad_status_func_atividade SET idstatus = ? WHERE idfuncionario = ? AND idfazenda = ? AND idatividade = ?";
-  //     const valuesStatus = [req.body.idstatus, req.body.idfuncionario, req.body.idfazenda, req.body.idatividade];
-  //     const [resultStatusAtividade] = await conn.query(sqlStatus, valuesStatus);
-
-  //     if (resultStatusAtividade.affectedRows === 0) {
-  //         await conn.rollback();
-  //         return res.status(500).send('Erro ao atualizar status da atividade.');
-  //     };
-
-  //     await conn.commit();
-
-  //     res.status(200).send('Dados do funcionário atualizados com sucesso!');
-  // } catch (error) {
-  //     await conn.rollback();
-  //     res.status(500).send(error.message);
-  // } finally {
-  //     conn.release();
-  // };
 
   const conn = await connect();
 
@@ -292,7 +249,7 @@ exports.get = async (req, res, next) => {
               +"inner join "
               +"    cad_operacoes co on co.idoperacao = cao.idoperacao "
               +"where "
-              +"     co.descricao like '%financeiro%' and cfa.data_desativacao is null "
+              +"     co.descricao like '%operacional%' and cfa.data_desativacao is null "
               +"GROUP BY"
               +"    cf.idfuncionario, cf.nome_func,co.descricao "
               +"ORDER BY"
@@ -302,7 +259,7 @@ exports.get = async (req, res, next) => {
   res.status(200).send(rows);
 };
 
-exports.deleteFuncionario_financeiro = async (req, res, next) => {
+exports.deleteFuncionario_operacao = async (req, res, next) => {
   let id = req.params.id;
   const conn = await connect();
 

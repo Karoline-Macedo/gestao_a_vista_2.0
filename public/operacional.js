@@ -68,7 +68,7 @@ function mostrar(dados) {
             let atividade = dados[i].atividades[j];
             let descricaoAtividade = atividade.atividade;
 
-            if (descricaoAtividade === "Controle de Ponto") {
+            if (descricaoAtividade === "Controle de Estoque") {
                 controle_Estoque_Status = atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
             } else if (descricaoAtividade === "Caderno de Ponto") {
                 caderno_Pontos_Status = atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
