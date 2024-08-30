@@ -13,18 +13,19 @@
   <h2>Gestão a Vista</h2>
   <form action="/" method="post">
     <div class="form-group">
-      <input type="text" name="usuario" class="form-control" placeholder="Usuário" required="required">
+      <input type="text" name="usuario" class="form-control" placeholder="Usuário" required="required" id="userLogin">
     </div>
     <div class="form-group">
-      <input type="password" name="senha" class="form-control" placeholder="Senha" required="required">
+      <input type="password" name="senha" class="form-control" placeholder="Senha" required="required" id="senhaLogin">
     </div>
     <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-block btn-login">Login</button>
     </div>
   </form>
+  <button class="btn btn-primary btn-block btn-login" onclick="getLogin()">Login</button>
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/public/index.js"></script>
 </body>
 
 </html>

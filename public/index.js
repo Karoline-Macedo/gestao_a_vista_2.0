@@ -34,28 +34,60 @@ db.connect((err) => {
 });
 
 // Rota para a página de login
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html'); // Certifique-se de que o caminho para o arquivo HTML está correto
-});
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html'); // Certifique-se de que o caminho para o arquivo HTML está correto
+// });
 
-// Rota para processar o login
-app.post('/', (req, res) => {
-  const usuario = req.body.usuario;
-  const senha = req.body.senha;
+// // Rota para processar o login
+// app.post('/', (req, res) => {
+//   const usuario = req.body.usuario;
+//   const senha = req.body.senha;
 
-  const query = 'SELECT * FROM cad_login WHERE usuario = ? AND senha = ?';
-  db.query(query, [usuario, senha], (err, results) => {
-    if (err) throw err;
+//   const query = 'SELECT * FROM cad_login WHERE usuario = ? AND senha = ?';
+//   db.query(query, [usuario, senha], (err, results) => {
+//     if (err) throw err;
 
-    if (results.length > 0) {
-        res.redirect('/menu.html'); // Redirecione para o dashboard ou outra página
-    } else {
-      res.send('Usuário ou senha incorretos!');
-    }
-  });
-});
+//     if (results.length > 0) {
+//         res.redirect('/menu.html'); // Redirecione para o dashboard ou outra página
+//     } else {
+//       res.send('Usuário ou senha incorretos!');
+//     }
+//   });
+// });
 
 // Iniciar o servidor
 app.listen(3333, () => {
   console.log('Servidor rodando na porta 3333');
 });
+
+function getLogin() {
+  const user = document.getElementById("userLogin").value;
+  const senha = document.getElementById("senhaLogin").value;
+
+  let dados = {
+      user: user,
+      senha: senha
+  };
+
+  url = "http://127.0.0.1:3333/get_login_user";
+  metodo = "POST";
+
+  fetch(url,
+      {
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+              },
+          method: metodo, 
+          body: JSON.stringify(dados)
+      }
+  ).then(resp => resp.json())
+  .then(dados => {
+      
+      if (dados == "success") {
+        res.redirect('/menu.html');
+      } else {
+        alert("Usuário ou senha incorretos");
+      };
+  });  
+};
