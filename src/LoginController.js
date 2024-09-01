@@ -12,27 +12,35 @@ async function connect() {
     console.log("Conectou no MySQL!");
     global.connection = connection;
     return connection;
-}
+};
 
-exports.get = async (req, res, next) => {
-
+exports.post = async (req, res, next) => {
     const conn = await connect();
-  
-    const sql = "SELECT"
-                +"   usuario,"
-                +"   senha " 
-                +"FROM"
-                +"    cad_login";
-  
-    const rows = await conn.query(sql);
     
-    let sqlUser = rows.usuario;
-    let sqlSenha = rows.senha;
+    try {
 
-    if (req.body.user == sqlUser && req.body.senha == sqlSenha) {
-        res.status(200).send("success");
-    } else {
-        res.status(403).send("false")
-    };
+        let sql = `
+            SELECT usuario, senha
+            FROM cad_login
+            WHERE usuario = ?
+        `;
 
-  };
+        let [rows] = await conn.query(sql, [req.body.user]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "Usuário não encontrado" });
+        };
+
+        let { usuario, senha } = rows[0];
+
+        if (req.body.senha === senha) {
+            return res.status(200).json({ message: "Autenticação bem-sucedida" });
+        } else {
+            return res.status(403).json({ message: "Usuário ou senha incorretos" });
+        };
+
+    } catch (error) {
+        console.error("Erro ao realizar autenticação:", error);
+        return res.status(500).json({ message: "Erro interno do servidor" });
+    }
+};

@@ -1,5 +1,3 @@
-
-
 async function connect() {
   if (global.connection && global.connection.state !== 'disconnected')
       return global.connection;
@@ -75,7 +73,6 @@ exports.insertFuncionario_operacao = async (req, res, next) => {
 };
 
 exports.updateFuncionario_operacao = async (req, res, next) => {
-
 
   const conn = await connect();
 

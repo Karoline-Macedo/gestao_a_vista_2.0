@@ -1,17 +1,7 @@
 var idatual = "";
 var idfuncionario_update = "";
-// var idfazenda = "";
-// var txtFazenda = document.getElementById("txtFazenda");
-// var txtRecursosHumanos = document.getElementById("txtRecursosHumanos");
-// var txtConciliacao = document.getElementById("txtConciliacao");
-// var txtFechamento = document.getElementById("txtFechamento");
-var txtAcoes = document.getElementById("txtAcoes");
 
-// var editFazenda = document.getElementById("editFazenda");
-// var editRecursosHumanos = document.getElementById("editRecursosHumanos");
-// var editConciliacao = document.getElementById("editConciliacao");
-// var editFechamento = document.getElementById("editFechamento");
-// var editAcoes = document.getElementById("editAcoes");
+var txtAcoes = document.getElementById("txtAcoes");
 
 var selectFuncionario = document.getElementById("newFuncionario");
 var selectFazenda = document.getElementById("newFazenda");

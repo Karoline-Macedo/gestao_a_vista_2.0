@@ -1,17 +1,7 @@
 var idatual = "";
 var idfuncionario_update = "";
-// var idfazenda = "";
-// var txtFazenda = document.getElementById("txtFazenda");
-// var txtRecursosHumanos = document.getElementById("txtRecursosHumanos");
-// var txtConciliacao = document.getElementById("txtConciliacao");
-// var txtFechamento = document.getElementById("txtFechamento");
-var txtAcoes = document.getElementById("txtAcoes");
 
-// var editFazenda = document.getElementById("editFazenda");
-// var editRecursosHumanos = document.getElementById("editRecursosHumanos");
-// var editConciliacao = document.getElementById("editConciliacao");
-// var editFechamento = document.getElementById("editFechamento");
-// var editAcoes = document.getElementById("editAcoes");
+var txtAcoes = document.getElementById("txtAcoes");
 
 var selectFuncionario = document.getElementById("newFuncionario");
 var selectFazenda = document.getElementById("newFazenda");
@@ -35,7 +25,7 @@ function listar() {
     const lista = document.getElementById("lista");
     lista.innerHTML = "<tr><td colspan=11>Carregando...</td></tr>";
 
-    fetch("http://127.0.0.1:3333/cad_funcionario_atividade")
+    fetch("http://127.0.0.1:3333/cad_funcionario_operacao")
     .then(resp => resp.json())
     .then(dados => {
         // console.log(dados);
@@ -113,7 +103,7 @@ function setRegistro() {
         ]
     };
 
-    url = "http://127.0.0.1:3333/cad_funcionario_dados";
+    url = "http://127.0.0.1:3333/cad_funcionario_dados_operacao";
     metodo = "POST";
 
     fetch(url,
@@ -180,7 +170,7 @@ function alterarSim() {
 
     // console.log(dados);
     
-    url = `http://127.0.0.1:3333/cad_funcionario_dados`;
+    url = `http://127.0.0.1:3333/cad_funcionario_dados_operacao`;
     metodo = "PUT";
 
     fetch(url,
@@ -205,7 +195,7 @@ function excluir(id) {
 
 function excluirSim() {
 
-    url = `http://127.0.0.1:3333/cad_funcionario_atividade/${idatual}`;
+    url = `http://127.0.0.1:3333/cad_funcionario_operacao/${idatual}`;
     metodo = "DELETE";
     
     fetch(url,
