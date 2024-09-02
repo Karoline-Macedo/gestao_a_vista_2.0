@@ -44,7 +44,7 @@ exports.insertFuncionario_operacao = async (req, res, next) => {
           if (atividade.idatividade === 1) {
               idStatus = atividade.idStatusControleEstoque;
           } else if (atividade.idatividade === 2) {
-              idStatus = atividade.idStatusCadernoPontos;
+              idStatus = atividade.idStatusCadernoPonto;
           } else if (atividade.idatividade === 3) {
               idStatus = atividade.idStatusRastreamento;
           } else {

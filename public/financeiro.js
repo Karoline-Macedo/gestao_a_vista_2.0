@@ -28,7 +28,7 @@ function listar() {
     fetch("http://127.0.0.1:3333/cad_funcionario_atividade")
     .then(resp => resp.json())
     .then(dados => {
-        // console.log(dados);
+        console.log(dados);
         
         if (dados == "") {
             const lista = document.getElementById("lista");

@@ -5,15 +5,15 @@ var txtAcoes = document.getElementById("txtAcoes");
 
 var selectFuncionario = document.getElementById("newFuncionario");
 var selectFazenda = document.getElementById("newFazenda");
-var selectControleEstoque = document.getElementById("newRecursosHumanos");
-var selectCadernoPontos= document.getElementById("newConciliacao");
-var selectRastreamento = document.getElementById("newFechamento");
+var selectControleEstoque = document.getElementById("newControleEstoque");
+var selectCadernoPontos = document.getElementById("newCadernoPontos");
+var selectRastreamento = document.getElementById("newRastreamento");
 
 var editFuncionario = document.getElementById("editFuncionario");
 var editFazenda = document.getElementById("editFazenda");
-var editControleEstoque = document.getElementById("editRecursosHumanos");
-var editCadernoPontos = document.getElementById("editConciliacao");
-var editRastreamento = document.getElementById("editFechamento");
+var editControleEstoque = document.getElementById("editControleEstoque");
+var editCadernoPontos = document.getElementById("editCadernoPontos");
+var editRastreamento = document.getElementById("editRastreamento");
 
 var txtPesquisa = document.getElementById("txtPesquisa");
 
