@@ -72,48 +72,48 @@ exports.insertFuncionario_financeiro = async (req, res, next) => {
     }
 };
 
-exports.updateFuncionario_financeiro = async (req, res, next) => {
+// exports.updateFuncionario_financeiro = async (req, res, next) => {
 
-    const conn = await connect();
+//     const conn = await connect();
 
-    try {
-        await conn.beginTransaction();
+//     try {
+//         await conn.beginTransaction();
 
-        let atividades = req.body.atividades;
+//         let atividades = req.body.atividades;
 
-        for (let atividade of atividades) {
-            let idStatus;
-            if (atividade.idatividade === 4) {
-                idStatus = atividade.idStatusRh;
-            } else if (atividade.idatividade === 5) {
-                idStatus = atividade.idStatusConcilicao;
-            } else if (atividade.idatividade === 6) {
-                idStatus = atividade.idStatusFechamento;
-            } else {
-                await conn.rollback();
-                return res.status(500).send('Atividade desconhecida.');
-            };
+//         for (let atividade of atividades) {
+//             let idStatus;
+//             if (atividade.idatividade === 4) {
+//                 idStatus = atividade.idStatusRh;
+//             } else if (atividade.idatividade === 5) {
+//                 idStatus = atividade.idStatusConcilicao;
+//             } else if (atividade.idatividade === 6) {
+//                 idStatus = atividade.idStatusFechamento;
+//             } else {
+//                 await conn.rollback();
+//                 return res.status(500).send('Atividade desconhecida.');
+//             };
 
-            let sqlUpdateStatus = `
-                UPDATE cad_status_func_atividade
-                SET idstatus = ?
-                WHERE idfunc_ativ_faz = (SELECT idfunc_atividade FROM cad_funcionario_atividade WHERE idfuncionario = ? AND idatividade = ? and data_desativacao is null)`;
-            let valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade];
-            let [resultUpdateStatus] = await conn.query(sqlUpdateStatus, valuesUpdateStatus);
+//             let sqlUpdateStatus = `
+//                 UPDATE cad_status_func_atividade
+//                 SET idstatus = ?
+//                 WHERE idfunc_ativ_faz = (SELECT idfunc_atividade FROM cad_funcionario_atividade WHERE idfuncionario = ? AND idatividade = ? and data_desativacao is null)`;
+//             let valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade];
+//             let [resultUpdateStatus] = await conn.query(sqlUpdateStatus, valuesUpdateStatus);
 
-            if (resultUpdateStatus.affectedRows === 0) {
-                await conn.rollback();
-                return res.status(500).send('Erro ao atualizar status da atividade.');
-            };
-        };
+//             if (resultUpdateStatus.affectedRows === 0) {
+//                 await conn.rollback();
+//                 return res.status(500).send('Erro ao atualizar status da atividade.');
+//             };
+//         };
 
-        await conn.commit();
-        res.status(200).send('Status das atividades do funcionário atualizados com sucesso!');
-    } catch (error) {
-        await conn.rollback();
-        res.status(500).send(error.message);
-    }
-};
+//         await conn.commit();
+//         res.status(200).send('Status das atividades do funcionário atualizados com sucesso!');
+//     } catch (error) {
+//         await conn.rollback();
+//         res.status(500).send(error.message);
+//     }
+// };
 
 exports.get = async (req, res, next) => {
 
@@ -169,4 +169,55 @@ exports.deleteFuncionario_financeiro = async (req, res, next) => {
     await conn.query(sqlDelete, valuesDelete);
 
     res.status(200).send('Dado deletado com sucesso!');
+};
+
+exports.updateFuncionario_financeiro = async (req, res, next) => {
+
+    const conn = await connect();
+
+    try {
+        await conn.beginTransaction();
+
+        let atividades = req.body.atividades;
+        let idFazenda = req.body.idfazenda;
+
+        for (let atividade of atividades) {
+            let idStatus;
+            if (atividade.idatividade === 4) {
+                idStatus = atividade.idStatusRh;
+            } else if (atividade.idatividade === 5) {
+                idStatus = atividade.idStatusConcilicao;
+            } else if (atividade.idatividade === 6) {
+                idStatus = atividade.idStatusFechamento;
+            } else {
+                await conn.rollback();
+                return res.status(500).send('Atividade desconhecida.');
+            }
+
+            let sqlUpdateStatus = `
+                UPDATE cad_status_func_atividade
+                SET idstatus = ?
+                WHERE idfunc_ativ_faz = (
+                    SELECT idfunc_atividade 
+                    FROM cad_funcionario_atividade 
+                    WHERE idfuncionario = ? 
+                    AND idatividade = ? 
+                    AND idfazenda = ? 
+                    AND data_desativacao IS NULL
+                )`;
+            let valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade, idFazenda];
+            let [resultUpdateStatus] = await conn.query(sqlUpdateStatus, valuesUpdateStatus);
+
+            if (resultUpdateStatus.affectedRows === 0) {
+                await conn.rollback();
+                return res.status(500).send('Erro ao atualizar status da atividade.');
+            }
+        }
+
+        await conn.commit();
+        res.status(200).send('Status das atividades do funcionário atualizados com sucesso!');
+    } catch (error) {
+        await conn.rollback();
+        res.status(500).send(error.message);
+    }
 };
