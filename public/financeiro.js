@@ -47,39 +47,47 @@ function mostrar(dados) {
     for (var i in dados) {
         let id = dados[i].idfuncionario;
         let nomeFunc = dados[i].nome_func;
-        let nomeFazenda = dados[i].atividades[0].nome_fazenda;
-        // let idfazenda = dados[i].atividades[0].idfazenda;
 
-        let recursosHumanosStatus = "-";
-        let conciliacaoStatus = "-";
-        let fechamentoStatus = "-";
+        const fazendas = {};
 
         for (var j in dados[i].atividades) {
             let atividade = dados[i].atividades[j];
+            let nomeFazenda = atividade.nome_fazenda;
+
+            if (!fazendas[nomeFazenda]) {
+                fazendas[nomeFazenda] = {
+                    recursosHumanosStatus: "-",
+                    conciliacaoStatus: "-",
+                    fechamentoStatus: "-"
+                };
+            };
+
             let descricaoAtividade = atividade.atividade;
 
             if (descricaoAtividade === "Recursos Humanos") {
-                recursosHumanosStatus = atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
+                fazendas[nomeFazenda].recursosHumanosStatus = atividade.status || "-";
             } else if (descricaoAtividade === "Conciliação") {
-                conciliacaoStatus = atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
+                fazendas[nomeFazenda].conciliacaoStatus = atividade.status || "-";
             } else if (descricaoAtividade === "Fechamento") {
-                fechamentoStatus = atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
+                fazendas[nomeFazenda].fechamentoStatus = atividade.status || "-";
             }
         };
 
-        lista.innerHTML += "<tr>"
-            + "<td>" + nomeFunc + "</td>"
-            + "<td>" + nomeFazenda + "</td>"
-            + "<td>" + recursosHumanosStatus + "</td>"
-            + "<td>" + conciliacaoStatus + "</td>"
-            + "<td>" + fechamentoStatus + "</td>"
-            + "<td>"
-            +   "<button type='button' class='btn btn-primary' onclick='alterar("+JSON.stringify(dados[i])+")'>Alterar</button>"
-            +   " "
-            +   "<button type='button' class='btn btn-danger' onclick='excluir("+id+")'>Excluir</button>"
-            + "</td>"
-            + "</tr>";
-    }
+        for (let nomeFazenda in fazendas) {
+            lista.innerHTML += "<tr>"
+                + "<td>" + nomeFunc + "</td>"
+                + "<td>" + nomeFazenda + "</td>"
+                + "<td>" + fazendas[nomeFazenda].recursosHumanosStatus + "</td>"
+                + "<td>" + fazendas[nomeFazenda].conciliacaoStatus + "</td>"
+                + "<td>" + fazendas[nomeFazenda].fechamentoStatus + "</td>"
+                + "<td>"
+                +   "<button type='button' class='btn btn-primary' onclick='alterar("+JSON.stringify(dados[i])+")'>Alterar</button>"
+                +   " "
+                +   "<button type='button' class='btn btn-danger' onclick='excluir("+id+")'>Excluir</button>"
+                + "</td>"
+                + "</tr>";
+        };
+    };
 };
 
 function setRegistro() {
