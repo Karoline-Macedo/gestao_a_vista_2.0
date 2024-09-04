@@ -1,5 +1,6 @@
 var idatual = "";
 var idfuncionario_update = "";
+var idfazenda_update = "";
 
 var txtAcoes = document.getElementById("txtAcoes");
 
@@ -40,48 +41,6 @@ function listar() {
     });
 };
 
-function mostrar(dados) {
-    const lista = document.getElementById("lista");
-    lista.innerHTML = "";
-
-    for (var i in dados) {
-        let id = dados[i].idfuncionario;
-        let nomeFunc = dados[i].nome_func;
-        let nomeFazenda = dados[i].atividades[0].nome_fazenda;
-        // let idfazenda = dados[i].atividades[0].idfazenda;
-
-        let controle_Estoque_Status = "-";
-        let caderno_Pontos_Status = "-";
-        let rastreamento_Status= "-";
-
-        for (var j in dados[i].atividades) {
-            let atividade = dados[i].atividades[j];
-            let descricaoAtividade = atividade.atividade;
-
-            if (descricaoAtividade === "Controle de Estoque") {
-                controle_Estoque_Status = atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
-            } else if (descricaoAtividade === "Caderno de Ponto") {
-                caderno_Pontos_Status = atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
-            } else if (descricaoAtividade === "Rastreamento") {
-                rastreamento_Status= atividade.status == undefined || atividade.status == "" ? "-" : atividade.status;
-            }
-        };
-
-        lista.innerHTML += "<tr>"
-            + "<td>" + nomeFunc + "</td>"
-            + "<td>" + nomeFazenda + "</td>"
-            + "<td>" + controle_Estoque_Status + "</td>"
-            + "<td>" + caderno_Pontos_Status + "</td>"
-            + "<td>" + rastreamento_Status + "</td>"
-            + "<td>"
-            +   "<button type='button' class='btn btn-primary' onclick='alterar("+JSON.stringify(dados[i])+")'>Alterar</button>"
-            +   " "
-            +   "<button type='button' class='btn btn-danger' onclick='excluir("+id+")'>Excluir</button>"
-            + "</td>"
-            + "</tr>";
-    }
-};
-
 function setRegistro() {
     
     const dados = {
@@ -106,6 +65,21 @@ function setRegistro() {
     url = "http://127.0.0.1:3333/cad_funcionario_dados_operacao";
     metodo = "POST";
 
+    if (selectFuncionario.value == "") {
+        alert("Selecione um funcionário para continuar!")
+        return
+    };
+
+    if (selectFazenda.value == "") {
+        alert("Selecione uma fazenda para continuar!")
+        return
+    };
+
+    if (selectControleEstoque.value == "" || selectCadernoPontos.value == "" || selectRastreamento.value == "") {
+        alert("Selecione um status para todas as atividades")
+        return
+    };
+
     fetch(url,
         {
             headers: {
@@ -121,37 +95,11 @@ function setRegistro() {
     })
 };
 
-function alterar(dados) {
-
-    modalEdit.show();
-
-    idfuncionario_update = "";
-    document.getElementById("editFuncionario").value = "";
-    document.getElementById("editFazenda").value = "";
-    document.getElementById("editControleEstoque").value = "";
-    document.getElementById("editCadernoPontos").value = "";
-    document.getElementById("editRastreamento").value = "";
-
-    idfuncionario_update = dados.idfuncionario;
-
-    document.getElementById("editFuncionario").value = dados.nome_func;
-    document.getElementById("editFazenda").value = dados.atividades[0].nome_fazenda;
-
-    for (atividade of dados.atividades) {
-        if (atividade.idatividade == 1) {
-            document.getElementById("editControleEstoque").value = atividade.idstatus;
-        } else if (atividade.idatividade == 2) {
-            document.getElementById("editCadernoPontos").value = atividade.idstatus;
-        } else if (atividade.idatividade == 3) {
-            document.getElementById("editRastreamento").value = atividade.idstatus;
-        };
-    };
-};
-
 function alterarSim() {
 
     const dados = {
         idfuncionario: idfuncionario_update,
+        idfazenda: idfazenda_update,
         atividades : [
             {
                 idatividade: 1,
@@ -169,6 +117,11 @@ function alterarSim() {
     };
 
     // console.log(dados);
+    if (editControleEstoque.value == "" || editCadernoPontos.value == "" || editRastreamento.value == "") {
+        alert("Selecione um status para todas as atividades")
+        return
+    };
+
     
     url = `http://127.0.0.1:3333/cad_funcionario_dados_operacao`;
     metodo = "PUT";
@@ -233,3 +186,94 @@ function filtroTabela(elemento, table) {
 };
 
 listar();
+
+function mostrar(dados) {
+    const lista = document.getElementById("lista");
+    lista.innerHTML = "";
+    let statusControle = "";
+    let statusCaderno = "";
+    let statusRastreamento = "";
+
+    for (var i in dados) {
+        let id = dados[i].idfuncionario;
+        let nomeFunc = dados[i].nome_func;
+
+        const fazendas = {};
+
+        for (var j in dados[i].atividades) {
+            let atividade = dados[i].atividades[j];
+            let nomeFazenda = atividade.nome_fazenda;
+            let idFazenda = atividade.idfazenda;
+
+            if (!fazendas[nomeFazenda]) {
+                fazendas[nomeFazenda] = {
+                    idFazenda: idFazenda,
+                    recursosHumanosStatus: "-",
+                    conciliacaoStatus: "-",
+                    fechamentoStatus: "-"
+                };
+            };
+
+            let descricaoAtividade = atividade.atividade;
+
+            if (descricaoAtividade === "Controle de Estoque") {
+                fazendas[nomeFazenda].controle_Estoque_Status = atividade.status || "-";
+            } else if (descricaoAtividade === "Caderno de Ponto") {
+                fazendas[nomeFazenda].caderno_Pontos_Status = atividade.status || "-";
+            } else if (descricaoAtividade === "Rastreamento") {
+                fazendas[nomeFazenda].rastreamento_Status = atividade.status || "-";
+            };
+
+
+            statusControle = fazendas[nomeFazenda].controle_Estoque_Status == undefined ? "-" : fazendas[nomeFazenda].controle_Estoque_Status;
+            statusCaderno = fazendas[nomeFazenda].caderno_Pontos_Status == undefined ? "-" : fazendas[nomeFazenda].caderno_Pontos_Status;
+            statusRastreamento = fazendas[nomeFazenda].rastreamento_Status == undefined ? "-" : fazendas[nomeFazenda].rastreamento_Status;
+
+        };
+
+        for (let nomeFazenda in fazendas) {
+            lista.innerHTML += "<tr>"
+                + "<td>" + nomeFunc + "</td>"
+                + "<td>" + nomeFazenda + "</td>"
+                + "<td>" + statusControle + "</td>"
+                + "<td>" + statusCaderno + "</td>"
+                + "<td>" + statusRastreamento + "</td>"
+                + "<td>"
+                +   "<button type='button' class='btn btn-primary' onclick='alterar("+JSON.stringify(dados[i])+", \""+nomeFazenda+"\", "+fazendas[nomeFazenda].idFazenda+")'>Alterar</button>"
+                +   " "
+                +   "<button type='button' class='btn btn-danger' onclick='excluir("+id+")'>Excluir</button>"
+                + "</td>"
+                + "</tr>";
+        };
+    };
+};
+
+function alterar(dados, nomeFazenda, idFazenda) {
+
+    modalEdit.show();
+
+    idfuncionario_update = "";
+    document.getElementById("editFuncionario").value = "";
+    document.getElementById("editFazenda").value = "";
+    document.getElementById("editControleEstoque").value = "";
+    document.getElementById("editCadernoPontos").value = "";
+    document.getElementById("editRastreamento").value = "";
+
+    idfuncionario_update = dados.idfuncionario;
+    idfazenda_update = idFazenda;
+
+    document.getElementById("editFuncionario").value = dados.nome_func;
+    document.getElementById("editFazenda").value = nomeFazenda;
+
+    for (atividade of dados.atividades) {
+        if (atividade.idfazenda === idFazenda) {
+            if (atividade.idatividade == 1) {
+                document.getElementById("editControleEstoque").value = atividade.idstatus;
+            } else if (atividade.idatividade == 2) {
+                document.getElementById("editCadernoPontos").value = atividade.idstatus;
+            } else if (atividade.idatividade == 3) {
+                document.getElementById("editRastreamento").value = atividade.idstatus;
+            };
+        }
+    }
+};

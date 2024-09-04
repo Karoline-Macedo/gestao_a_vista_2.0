@@ -80,14 +80,15 @@ exports.updateFuncionario_operacao = async (req, res, next) => {
       await conn.beginTransaction();
 
       let atividades = req.body.atividades;
+      let idFazenda = req.body.idfazenda;
 
       for (let atividade of atividades) {
           let idStatus;
-          if (atividade.idatividade === 4) {
+          if (atividade.idatividade === 1) {
               idStatus = atividade.idStatusControleEstoque;
-          } else if (atividade.idatividade === 5) {
-              idStatus = atividade.idStatusCadernoPontos;
-          } else if (atividade.idatividade === 6) {
+          } else if (atividade.idatividade === 2) {
+              idStatus = atividade.idStatusCadernoPonto;
+          } else if (atividade.idatividade === 3) {
               idStatus = atividade.idStatusRastreamento;
           } else {
               await conn.rollback();
@@ -97,8 +98,15 @@ exports.updateFuncionario_operacao = async (req, res, next) => {
           let sqlUpdateStatus = `
               UPDATE cad_status_func_atividade
               SET idstatus = ?
-              WHERE idfunc_ativ_faz = (SELECT idfunc_atividade FROM cad_funcionario_atividade WHERE idfuncionario = ? AND idatividade = ? and data_desativacao is null)`;
-          let valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade];
+              WHERE idfunc_ativ_faz = (
+                    SELECT idfunc_atividade 
+                    FROM cad_funcionario_atividade 
+                    WHERE idfuncionario = ? 
+                    AND idatividade = ? 
+                    AND idfazenda = ? 
+                    AND data_desativacao is null
+                )`;
+          let valuesUpdateStatus = [idStatus, req.body.idfuncionario, atividade.idatividade, idFazenda];
           let [resultUpdateStatus] = await conn.query(sqlUpdateStatus, valuesUpdateStatus);
 
           if (resultUpdateStatus.affectedRows === 0) {

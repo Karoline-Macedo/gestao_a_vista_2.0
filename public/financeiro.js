@@ -41,56 +41,6 @@ function listar() {
     });
 };
 
-// function mostrar(dados) {
-//     const lista = document.getElementById("lista");
-//     lista.innerHTML = "";
-
-//     for (var i in dados) {
-//         let id = dados[i].idfuncionario;
-//         let nomeFunc = dados[i].nome_func;
-
-//         const fazendas = {};
-
-//         for (var j in dados[i].atividades) {
-//             let atividade = dados[i].atividades[j];
-//             let nomeFazenda = atividade.nome_fazenda;
-
-//             if (!fazendas[nomeFazenda]) {
-//                 fazendas[nomeFazenda] = {
-//                     recursosHumanosStatus: "-",
-//                     conciliacaoStatus: "-",
-//                     fechamentoStatus: "-"
-//                 };
-//             };
-
-//             let descricaoAtividade = atividade.atividade;
-
-//             if (descricaoAtividade === "Recursos Humanos") {
-//                 fazendas[nomeFazenda].recursosHumanosStatus = atividade.status || "-";
-//             } else if (descricaoAtividade === "Conciliação") {
-//                 fazendas[nomeFazenda].conciliacaoStatus = atividade.status || "-";
-//             } else if (descricaoAtividade === "Fechamento") {
-//                 fazendas[nomeFazenda].fechamentoStatus = atividade.status || "-";
-//             }
-//         };
-
-//         for (let nomeFazenda in fazendas) {
-//             lista.innerHTML += "<tr>"
-//                 + "<td>" + nomeFunc + "</td>"
-//                 + "<td>" + nomeFazenda + "</td>"
-//                 + "<td>" + fazendas[nomeFazenda].recursosHumanosStatus + "</td>"
-//                 + "<td>" + fazendas[nomeFazenda].conciliacaoStatus + "</td>"
-//                 + "<td>" + fazendas[nomeFazenda].fechamentoStatus + "</td>"
-//                 + "<td>"
-//                 +   "<button type='button' class='btn btn-primary' onclick='alterar("+JSON.stringify(dados[i])+")'>Alterar</button>"
-//                 +   " "
-//                 +   "<button type='button' class='btn btn-danger' onclick='excluir("+id+")'>Excluir</button>"
-//                 + "</td>"
-//                 + "</tr>";
-//         };
-//     };
-// };
-
 function setRegistro() {
     
     const dados = {
@@ -115,6 +65,21 @@ function setRegistro() {
     url = "http://127.0.0.1:3333/cad_funcionario_dados";
     metodo = "POST";
 
+    if (selectFuncionario.value == "") {
+        alert("Selecione um funcionário para continuar!")
+        return
+    };
+
+    if (selectFazenda.value == "") {
+        alert("Selecione uma fazenda para continuar!")
+        return
+    };
+
+    if (selectRH.value == "" || selectConcilicao.value == "" || selectFechamento.value == "") {
+        alert("Selecione um status para todas as atividades")
+        return
+    };
+
     fetch(url,
         {
             headers: {
@@ -129,34 +94,6 @@ function setRegistro() {
         listar();
     })
 };
-
-// function alterar(dados) {
-//     console.log(dados);
-
-//     modalEdit.show();
-
-//     idfuncionario_update = "";
-//     document.getElementById("editFuncionario").value = "";
-//     document.getElementById("editFazenda").value = "";
-//     document.getElementById("editRecursosHumanos").value = "";
-//     document.getElementById("editConciliacao").value = "";
-//     document.getElementById("editFechamento").value = "";
-
-//     idfuncionario_update = dados.idfuncionario;
-
-//     document.getElementById("editFuncionario").value = dados.nome_func;
-//     document.getElementById("editFazenda").value = dados.atividades[0].nome_fazenda;
-
-//     for (atividade of dados.atividades) {
-//         if (atividade.idatividade == 4) {
-//             document.getElementById("editRecursosHumanos").value = atividade.idstatus;
-//         } else if (atividade.idatividade == 5) {
-//             document.getElementById("editConciliacao").value = atividade.idstatus;
-//         } else if (atividade.idatividade == 6) {
-//             document.getElementById("editFechamento").value = atividade.idstatus;
-//         };
-//     };
-// };
 
 function alterarSim() {
 
@@ -180,6 +117,10 @@ function alterarSim() {
     };
 
     // console.log(dados);
+    if (editRH.value == "" || editConcilicao.value == "" || editFechamento.value == "") {
+        alert("Selecione um status para todas as atividades")
+        return
+    }; 
     
     url = `http://127.0.0.1:3333/cad_funcionario_dados`;
     metodo = "PUT";
@@ -298,9 +239,6 @@ function mostrar(dados) {
 };
 
 function alterar(dados, nomeFazenda, idFazenda) {
-    // console.log(dados);
-    // console.log(nomeFazenda);
-    // console.log(idFazenda);
 
     modalEdit.show();
 
